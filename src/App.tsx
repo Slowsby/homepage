@@ -1,23 +1,39 @@
 import Time from './components/Time';
 import Date from './components/Date';
 import ASCII from './components/ASCII';
+import Help from './components/Help';
 import { useEffect, useRef, useState } from 'react';
 import { handleSearch } from './tools/search';
 export default function Home() {
   const [search, setSearch] = useState<string>('');
+  const [isHelpVisible, setHelpVisible] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.focus();
+    if (!isHelpVisible) {
+      inputRef.current?.focus();
     }
-  }, []);
+  }, [isHelpVisible]);
 
   const handleEnter = (e: KeyboardEvent) => {
+    if (e.code === 'Backquote' && isHelpVisible) {
+      setHelpVisible(false);
+      inputRef.current?.focus();
+      setTimeout(() => {
+        setSearch('');
+      }, 30);
+    }
     if (e.code === 'Enter' || e.code === 'NumpadEnter') {
+      if (search === 'hh') {
+        inputRef.current?.blur();
+        setHelpVisible(true);
+        return;
+      }
       handleSearch(search);
+      setSearch('');
     }
   };
+
   useEffect(() => {
     window.addEventListener('keydown', handleEnter);
     return () => {
@@ -61,6 +77,8 @@ export default function Home() {
               </div>
               <input
                 ref={inputRef}
+                value={search}
+                type='text'
                 className='block w-full p-2 ps-12 text-lg border rounded-2xl text-black placeholder:text-[#5A5A5A] bg-[#9E9E9E] border-[#9e9e9e] focus:outline-none'
                 placeholder={`"This is my gift, my curse"`}
                 onChange={(e) => setSearch(e.target.value.toString())}
@@ -68,7 +86,10 @@ export default function Home() {
               />
             </div>
           </div>
-          <ASCII />
+          <div>
+            <ASCII />
+          </div>
+          {isHelpVisible ? <Help /> : ''}
         </div>
       </div>
     </>
