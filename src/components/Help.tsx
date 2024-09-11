@@ -1,7 +1,7 @@
 import { items } from '../tools/search';
 const Help = () => {
   return (
-    <div className='flex flex-col absolute bg-[#070424] w-full h-full text-md p-3'>
+    <div className='flex flex-col absolute bg-main-bg bg-cover w-full h-full text-md p-3'>
       {items
         .sort((a, b) => a.key.localeCompare(b.key))
         .map((item) => (

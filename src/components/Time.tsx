@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 const Time = () => {
   const [time, setTime] = useState<string>(
     new Date().toLocaleTimeString([], {
       hour12: true,
-      hour: "numeric",
-      minute: "2-digit",
+      hour: 'numeric',
+      minute: '2-digit',
     }),
   );
 
@@ -14,8 +14,8 @@ const Time = () => {
       setTime(
         new Date().toLocaleTimeString([], {
           hour12: true,
-          hour: "numeric",
-          minute: "2-digit",
+          hour: 'numeric',
+          minute: '2-digit',
         }),
       );
     }, 1000);

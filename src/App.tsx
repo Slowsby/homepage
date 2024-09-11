@@ -2,6 +2,7 @@ import Time from './components/Time';
 import Date from './components/Date';
 import ASCII from './components/ASCII';
 import Help from './components/Help';
+import Weather from './components/Weather';
 import { useEffect, useRef, useState } from 'react';
 import { handleSearch } from './tools/search';
 export default function Home() {
@@ -15,15 +16,13 @@ export default function Home() {
     }
   }, [isHelpVisible]);
 
-  const handleEnter = (e: KeyboardEvent) => {
-    if (e.code === 'Backquote' && isHelpVisible) {
+  const handleEvent = (e: KeyboardEvent) => {
+    if ((e.code === 'Enter' || e.code === 'NumpadEnter') && isHelpVisible) {
+      setSearch('');
       setHelpVisible(false);
       inputRef.current?.focus();
-      setTimeout(() => {
-        setSearch('');
-      }, 30);
-    }
-    if (e.code === 'Enter' || e.code === 'NumpadEnter') {
+      return;
+    } else if (e.code === 'Enter' || e.code === 'NumpadEnter') {
       if (search === 'hh') {
         inputRef.current?.blur();
         setHelpVisible(true);
@@ -35,15 +34,16 @@ export default function Home() {
   };
 
   useEffect(() => {
-    window.addEventListener('keydown', handleEnter);
+    window.addEventListener('keydown', handleEvent);
     return () => {
-      window.removeEventListener('keydown', handleEnter);
+      window.removeEventListener('keydown', handleEvent);
     };
   });
   return (
     <>
-      <div className='h-screen bg-[#180202] text-white flex flex-col items-center justify-center'>
-        <div className='flex  flex-col md:flex-row items-center justify-center'>
+      <Weather />
+      <div className='h-screen bg-main-bg bg-cover text-white flex flex-col items-center justify-center'>
+        <div className='flex flex-col md:flex-row items-center justify-center'>
           <div className='flex-col md:mr-24'>
             <div id='time' className='text-5xl my-2'>
               <Time />
@@ -79,7 +79,7 @@ export default function Home() {
                 ref={inputRef}
                 value={search}
                 type='text'
-                className='block w-full p-2 ps-12 text-lg border rounded-2xl text-black placeholder:text-[#5A5A5A] bg-[#9E9E9E] border-[#9e9e9e] focus:outline-none'
+                className='block w-full md:w-96 p-2 ps-12 text-lg border rounded-2xl text-black placeholder:text-[#5A5A5A] bg-[#9E9E9E] border-[#9e9e9e] focus:outline-none'
                 placeholder={`"This is my gift, my curse"`}
                 onChange={(e) => setSearch(e.target.value.toString())}
                 required
