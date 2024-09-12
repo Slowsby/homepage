@@ -4,6 +4,16 @@ const Weather = () => {
   const [temp, setTemp] = useState<string>('');
   const [currentLatitude, setCurrentLatitude] = useState<number>(0);
   const [currentLongitude, setCurrentLongitude] = useState<number>(0);
+  useEffect(() => {
+    const storedTemp = localStorage.getItem('storedTemp');
+    if (storedTemp) {
+      setTemp(storedTemp);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('storedTemp', temp);
+  }, [temp]);
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {

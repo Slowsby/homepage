@@ -3,7 +3,7 @@ export const handleSearch = (search: string) => {
   const fullQuery = search.split(' ').join('+');
   const [command, ...toSearch] = search.split(' ');
   const query = toSearch.join('+');
-
+  const hyphenatedQuery = toSearch.join('-');
   //
   // Shortened commands to search/goto a specific site
   //
@@ -14,6 +14,13 @@ export const handleSearch = (search: string) => {
   //      : 'https://www.youtube.com'; -> If no arguments, go to the base YouTube site
   //
   switch (command.toLowerCase()) {
+    // AMAZON
+    case 'amazon':
+      window.location.href = toSearch.length
+        ? `https://www.amazon.com/s?k=${query}`
+        : 'https://www.amazon.com';
+      break;
+
     // DUCKDUCKGO
     case 'ddg':
       window.location.href = toSearch.length
@@ -26,9 +33,15 @@ export const handleSearch = (search: string) => {
         ? defaultSearchUrl + fullQuery
         : 'https://www.deepl.com/en/translator';
       break;
+    // DISNEY
+    case 'disney':
+      window.location.href = toSearch.length
+        ? defaultSearchUrl + fullQuery
+        : 'https://www.disneyplus.com';
+      break;
     case 'dpb': {
       const url = toSearch.length
-        ? `${atob('aHR0cHM6Ly9kb3BlYm94LnRvL3NlYXJjaC8=')}${query}`
+        ? `${atob('aHR0cHM6Ly9kb3BlYm94LnRvL3NlYXJjaC8=')}${hyphenatedQuery}`
         : `${atob('aHR0cHM6Ly9kb3BlYm94LnRvLw==')}`;
       window.location.href = url;
       break;
@@ -50,7 +63,7 @@ export const handleSearch = (search: string) => {
     case 'gh':
       window.location.href = toSearch.length
         ? defaultSearchUrl + fullQuery
-        : (window.location.href = 'https://www.github.com');
+        : 'https://www.github.com';
       break;
     // GOOGLE IMAGES
     case 'img':
@@ -58,17 +71,53 @@ export const handleSearch = (search: string) => {
         ? `https://www.google.com/search?tbm=isch&q=${query}`
         : 'https://www.google.com/search?tbm=isch';
       break;
+    // NETFLIX
+    case 'netflix':
+      window.location.href = toSearch.length
+        ? defaultSearchUrl + fullQuery
+        : 'https://www.netflix.com';
+      break;
+    // MAIL
+    case 'mail':
+      window.location.href = toSearch.length
+        ? defaultSearchUrl + fullQuery
+        : 'https://mail.google.com/mail/u/0/';
+      break;
+    // MAIL
+    case 'mail1':
+      window.location.href = toSearch.length
+        ? defaultSearchUrl + fullQuery
+        : 'https://mail.google.com/mail/u/1/';
+      break;
     // GOOGLE MAPS
     case 'maps':
       window.location.href = toSearch.length
         ? `https://www.google.com/maps/search/${query}`
         : 'https://www.google.com/maps';
       break;
+    // MAX
+    case 'max':
+      window.location.href = toSearch.length
+        ? defaultSearchUrl + fullQuery
+        : 'https://www.max.com';
+      break;
+    // PRIME
+    case 'prime':
+      window.location.href = toSearch.length
+        ? defaultSearchUrl + fullQuery
+        : 'https://www.primevideo.com/';
+      break;
     // TF1
     case 'tf1':
       window.location.href = toSearch.length
         ? defaultSearchUrl + fullQuery
         : 'https://www.tf1.fr/';
+      break;
+    // TWITCH
+    case 'ttv':
+      window.location.href = toSearch.length
+        ? `https://www.twitch.tv/search?term=${query}`
+        : 'https://www.twitch.tv/';
       break;
     // VRT MAX
     case 'vrt':
@@ -79,7 +128,7 @@ export const handleSearch = (search: string) => {
     // KMI WEER
     case 'wtr':
       window.location.href = toSearch.length
-        ? `https://www.meteo.be/nl/${toSearch.join('-')}`
+        ? `https://www.meteo.be/nl/${hyphenatedQuery}`
         : 'https://www.meteo.be/nl/belgie';
       break;
     case 'whoami':
@@ -99,6 +148,12 @@ export const handleSearch = (search: string) => {
         ? `https://www.youtube.com/results?search_query=${query}`
         : 'https://www.youtube.com';
       break;
+    // site:reddit.com
+    case ':red':
+      window.location.href = toSearch.length
+        ? `https://www.google.com/search?q=${query}+site:reddit.com`
+        : defaultSearchUrl;
+      break;
     default:
       window.location.href = `${defaultSearchUrl}${fullQuery}`;
       break;
@@ -106,17 +161,23 @@ export const handleSearch = (search: string) => {
 };
 
 export const items: { key: string; label: string }[] = [
+  { key: 'amazon', label: 'Amazon' },
   { key: 'ddg', label: 'DuckDuckGo + Search' },
   { key: 'deepl', label: 'Deepl' },
-  { key: 'dpb', label: 'Dopebox + Search' },
+  { key: 'disney', label: 'Disney+' },
   { key: 'fmhy', label: 'FreeMediaHeckYeah + Search' },
   { key: 'gpt', label: 'ChatGPT' },
   { key: 'gh', label: 'Github' },
   { key: 'img', label: 'Google Images + Search' },
+  { key: 'netflix', label: 'Netflix' },
+  { key: 'mail', label: 'Gmail' },
+  { key: 'mail1', label: 'Gmail' },
   { key: 'maps', label: 'Google Maps + Search' },
   { key: 'tf1', label: 'TF1' },
+  { key: 'ttv', label: 'Twitch + Search' },
   { key: 'vrt', label: 'VRT MAX + Search' },
   { key: 'wtr', label: 'Weather(KMI) + Search' },
   { key: 'wiki', label: 'Wikipedia + Search' },
   { key: 'ytb', label: 'Youtube + Search' },
+  { key: ':red', label: 'Search with site:reddit.com' },
 ];
