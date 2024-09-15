@@ -5,6 +5,7 @@ import Help from './components/Help';
 import Weather from './components/Weather';
 import { useEffect, useRef, useState } from 'react';
 import { handleSearch } from './tools/search';
+import gitMark from './assets/github-mark-white.png';
 export default function Home() {
   const [search, setSearch] = useState<string>('');
   const [isHelpVisible, setHelpVisible] = useState<boolean>(false);
@@ -41,7 +42,14 @@ export default function Home() {
   });
   return (
     <>
-      <Weather />
+      <div className='absolute flex text-white justify-between w-full p-5'>
+        <Weather />
+        <button
+          onClick={() => (window.location.href = 'https://github.com/Slowsby')}
+        >
+          <img className='w-8 h-8' src={gitMark} />
+        </button>
+      </div>
       <div className='h-screen bg-main-bg bg-cover text-white flex flex-col items-center justify-center'>
         <div className='flex flex-col md:flex-row items-center justify-center'>
           <div className='flex-col md:mr-24'>

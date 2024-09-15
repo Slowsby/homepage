@@ -25,21 +25,21 @@ const Weather = () => {
   useEffect(() => {
     if (currentLatitude || currentLongitude) {
       fetch(
-        `https://api.open-meteo.com/v1/forecast?latitude=${currentLatitude.toFixed(2)}&longitude=${currentLongitude.toFixed(2)}&current=temperature_2m`,
+        `https://api.open-meteo.com/v1/forecast?latitude=${currentLatitude.toFixed(2)}&longitude=${currentLongitude.toFixed(2)}&current=temperature_2m`
       )
         .then((res) => {
           return res.json();
         })
         .then((data) => {
           const {
-            current: { temperature_2m },
+            current: { temperature_2m }
           } = data;
           setTemp(temperature_2m);
         });
     }
   }, [currentLatitude, currentLongitude]);
   return (
-    <div className='absolute flex flex-row text-white text-xl p-5'>
+    <div className=' text-white text-lg'>
       <p>{temp ? `${temp}°C` : ''}</p>
     </div>
   );

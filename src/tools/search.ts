@@ -1,6 +1,6 @@
 const defaultSearchUrl = `https://www.google.com/search?q=`;
 export const handleSearch = (search: string) => {
-  const fullQuery = search.split(' ').join('+');
+  const fullQuery = defaultSearchUrl + search.split(' ').join('+');
   const [command, ...toSearch] = search.split(' ');
   const query = toSearch.join('+');
   const hyphenatedQuery = toSearch.join('-');
@@ -14,6 +14,12 @@ export const handleSearch = (search: string) => {
   //      : 'https://www.youtube.com'; -> If no arguments, go to the base YouTube site
   //
   switch (command.toLowerCase()) {
+    // ADS-B
+    case 'adsb':
+      window.location.href = toSearch.length
+        ? fullQuery
+        : 'https://globe.adsbexchange.com/';
+      break;
     // AMAZON
     case 'amz':
       window.location.href = toSearch.length
@@ -30,13 +36,13 @@ export const handleSearch = (search: string) => {
     // DEEPL
     case 'deepl':
       window.location.href = toSearch.length
-        ? defaultSearchUrl + fullQuery
+        ? fullQuery
         : 'https://www.deepl.com/en/translator';
       break;
     // DISNEY
     case 'disney':
       window.location.href = toSearch.length
-        ? defaultSearchUrl + fullQuery
+        ? fullQuery
         : 'https://www.disneyplus.com';
       break;
     case 'dpb': {
@@ -48,9 +54,7 @@ export const handleSearch = (search: string) => {
     }
     // EOL NASA
     case 'eol': {
-      const url = toSearch.length
-        ? defaultSearchUrl + fullQuery
-        : `https://eol.jsc.nasa.gov/`;
+      const url = toSearch.length ? fullQuery : `https://eol.jsc.nasa.gov/`;
       window.location.href = url;
       break;
     }
@@ -58,19 +62,19 @@ export const handleSearch = (search: string) => {
     case 'fmhy':
       window.location.href = toSearch.length
         ? // No search on this website so if the search is more than "gh", go back to google.
-          defaultSearchUrl + query
+          fullQuery
         : 'https://fmhy.net/';
       break;
     // CHAT GPT
     case 'gpt':
       window.location.href = toSearch.length
-        ? defaultSearchUrl + fullQuery
+        ? fullQuery
         : 'https://chatgpt.com/';
       break;
     // GITHUB
     case 'gh':
       window.location.href = toSearch.length
-        ? defaultSearchUrl + fullQuery
+        ? fullQuery
         : 'https://www.github.com';
       break;
     // imdb
@@ -88,25 +92,25 @@ export const handleSearch = (search: string) => {
     // NASA
     case 'nasa':
       window.location.href = toSearch.length
-        ? defaultSearchUrl + fullQuery
+        ? fullQuery
         : 'https://www.nasa.gov/';
       break;
     // NETFLIX
     case 'netflix':
       window.location.href = toSearch.length
-        ? defaultSearchUrl + fullQuery
+        ? fullQuery
         : 'https://www.netflix.com';
       break;
     // MAIL
     case 'gm':
       window.location.href = toSearch.length
-        ? defaultSearchUrl + fullQuery
+        ? fullQuery
         : 'https://mail.google.com/mail/u/0/';
       break;
     // MAIL
     case 'gm1':
       window.location.href = toSearch.length
-        ? defaultSearchUrl + fullQuery
+        ? fullQuery
         : 'https://mail.google.com/mail/u/1/';
       break;
     // GOOGLE MAPS
@@ -118,19 +122,19 @@ export const handleSearch = (search: string) => {
     // MAX
     case 'max':
       window.location.href = toSearch.length
-        ? defaultSearchUrl + fullQuery
+        ? fullQuery
         : 'https://www.max.com';
       break;
     // PRIME
     case 'prime':
       window.location.href = toSearch.length
-        ? defaultSearchUrl + fullQuery
+        ? fullQuery
         : 'https://www.primevideo.com/';
       break;
     // TF1
     case 'tf1':
       window.location.href = toSearch.length
-        ? defaultSearchUrl + fullQuery
+        ? fullQuery
         : 'https://www.tf1.fr/';
       break;
     // TWITCH
@@ -141,9 +145,13 @@ export const handleSearch = (search: string) => {
       break;
     // TWITTER
     case 'twtr':
+      window.location.href = toSearch.length ? fullQuery : 'https://www.x.com/';
+      break;
+    // VRT Nieuws
+    case 'vrtn':
       window.location.href = toSearch.length
-        ? defaultSearchUrl + fullQuery
-        : 'https://www.x.com/';
+        ? fullQuery
+        : 'https://www.vrt.be/vrtnws/nl/';
       break;
     // VRT MAX
     case 'vrt':
@@ -159,7 +167,7 @@ export const handleSearch = (search: string) => {
       break;
     case 'whoami':
       window.location.href = toSearch.length
-        ? defaultSearchUrl + fullQuery
+        ? fullQuery
         : 'https://www.youtube.com/embed/rkWoVBRxUKk';
       break;
     // WIKIPEDIA
@@ -181,12 +189,13 @@ export const handleSearch = (search: string) => {
         : defaultSearchUrl;
       break;
     default:
-      window.location.href = `${defaultSearchUrl}${fullQuery}`;
+      window.location.href = fullQuery;
       break;
   }
 };
 
 export const items: { key: string; label: string }[] = [
+  { key: 'adsb', label: 'ADS-B Exchange' },
   { key: 'amz', label: 'Amazon' },
   { key: 'ddg', label: 'DuckDuckGo + Search' },
   { key: 'deepl', label: 'Deepl' },
@@ -208,8 +217,9 @@ export const items: { key: string; label: string }[] = [
   { key: 'ttv', label: 'Twitch + Search' },
   { key: 'twtr', label: 'Twitter' },
   { key: 'vrt', label: 'VRT MAX + Search' },
+  { key: 'vrtn', label: 'VRT Nieuws' },
   { key: 'wtr', label: 'Weather(KMI) + Search' },
   { key: 'wiki', label: 'Wikipedia + Search' },
   { key: 'ytb', label: 'Youtube + Search' },
-  { key: ':red', label: 'Search with site:reddit.com' },
+  { key: ':red', label: 'Search with site:reddit.com' }
 ];
