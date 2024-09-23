@@ -26,7 +26,12 @@ export const handleSearch = (search: string) => {
         ? `https://www.amazon.com/s?k=${query}`
         : 'https://www.amazon.com';
       break;
-
+    // Calendar
+    case 'cal':
+      window.location.href = toSearch.length
+        ? fullQuery
+        : 'https://calendar.google.com/calendar/u/0/r';
+      break;
     // DUCKDUCKGO
     case 'ddg':
       window.location.href = toSearch.length
@@ -197,11 +202,12 @@ export const handleSearch = (search: string) => {
 export const items: { key: string; label: string }[] = [
   { key: 'adsb', label: 'ADS-B Exchange' },
   { key: 'amz', label: 'Amazon' },
+  { key: 'cal', label: 'Google Calendar' },
   { key: 'ddg', label: 'DuckDuckGo + Search' },
   { key: 'deepl', label: 'Deepl' },
   { key: 'disney', label: 'Disney+' },
   { key: 'eol', label: 'EOL NASA' },
-  { key: 'fmhy', label: 'FreeMediaHeckYeah + Search' },
+  { key: 'fmhy', label: 'FreeMediaHeckYeah' },
   { key: 'gpt', label: 'ChatGPT' },
   { key: 'gh', label: 'Github' },
   { key: 'imdb', label: 'IMDb + Search' },
