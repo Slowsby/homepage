@@ -94,6 +94,12 @@ export const handleSearch = (search: string) => {
         ? `https://www.google.com/search?tbm=isch&q=${query}`
         : 'https://www.google.com/search?tbm=isch';
       break;
+    // Monkeytype
+    case 'mty':
+      window.location.href = toSearch.length
+        ? fullQuery
+        : 'http://monkeytype.com';
+      break;
     // NASA
     case 'nasa':
       window.location.href = toSearch.length
@@ -212,6 +218,7 @@ export const items: { key: string; label: string }[] = [
   { key: 'gh', label: 'Github' },
   { key: 'imdb', label: 'IMDb + Search' },
   { key: 'img', label: 'Google Images + Search' },
+  { key: 'mty', label: 'Monkeytype' },
   { key: 'nasa', label: 'Nasa' },
   { key: 'netflix', label: 'Netflix' },
   { key: 'gm', label: 'Gmail' },

@@ -4,9 +4,9 @@ export default {
   theme: {
     extend: {
       backgroundImage: {
-        'main-bg': "url('/src/assets/background.jpg')",
-      },
-    },
+        'main-bg': "url('/src/assets/background.jpg')"
+      }
+    }
   },
-  plugins: [],
+  plugins: []
 };
