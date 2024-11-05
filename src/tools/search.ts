@@ -81,6 +81,13 @@ export const handleSearch = (search: string) => {
           ? fullQuery
           : 'https://chatgpt.com/';
         break;
+
+      // CHAT GPT Temp
+      case 'gpta':
+        window.location.href = toSearch.length
+          ? fullQuery
+          : 'https://chatgpt.com/?temporary-chat=true';
+        break;
       // GITHUB
       case 'gh':
         window.location.href = toSearch.length
@@ -228,6 +235,7 @@ export const items: { key: string; label: string }[] = [
   { key: 'eol', label: 'EOL NASA' },
   { key: 'fmhy', label: 'FreeMediaHeckYeah' },
   { key: 'gpt', label: 'ChatGPT' },
+  { key: 'gpta', label: 'ChatGPT Temporary Chat' },
   { key: 'gh', label: 'Github' },
   { key: 'imdb', label: 'IMDb + Search' },
   { key: 'img', label: 'Google Images + Search' },
