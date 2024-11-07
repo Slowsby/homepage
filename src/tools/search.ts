@@ -148,6 +148,13 @@ export const handleSearch = (search: string) => {
           ? fullQuery
           : 'https://www.max.com';
         break;
+      // POMODORO
+      case 'pomodoro':
+        window.location.href = toSearch.length
+          ? fullQuery
+          : 'https://slowsby.github.io/pomodoro/';
+        break;
+
       // PRIME
       case 'prime':
         window.location.href = toSearch.length
