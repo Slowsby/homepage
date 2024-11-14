@@ -1,6 +1,7 @@
 const defaultSearchUrl = `https://www.google.com/search?q=`;
 export const handleSearch = (search: string) => {
-  const fullQuery = defaultSearchUrl + search.split(' ').join('+');
+  const fullQuery =
+    defaultSearchUrl + search.replaceAll('+', '%2B').split(' ').join('+');
   const [command, ...toSearch] = search.split(' ');
   const query = toSearch.join('+');
   const hyphenatedQuery = toSearch.join('-');
