@@ -137,6 +137,12 @@ export const handleSearch = (search: string) => {
           ? fullQuery
           : 'https://mail.google.com/mail/u/1/';
         break;
+      // MAIL
+      case 'lcg':
+        window.location.href = toSearch.length
+          ? `https://leagueofcomicgeeks.com/search?keyword=${query}`
+          : 'https://leagueofcomicgeeks.com/';
+        break;
       // GOOGLE MAPS
       case 'maps':
         window.location.href = toSearch.length
