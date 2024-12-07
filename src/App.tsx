@@ -3,12 +3,15 @@ import Date from './components/Date';
 import ASCII from './components/ASCII';
 import Help from './components/Help';
 import Weather from './components/Weather';
+import Christmas from './components/events/Christmas';
 import { useEffect, useRef, useState } from 'react';
 import { handleSearch } from './tools/search';
 import gitMark from './assets/github-mark-white.png';
 export default function Home() {
   const [search, setSearch] = useState<string>('');
   const [isHelpVisible, setHelpVisible] = useState<boolean>(false);
+  const [christmasTheme, setChristmasTheme] = useState<boolean>(false);
+  const [isChristmas, setIsChristmas] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -33,6 +36,17 @@ export default function Home() {
       setSearch('');
     }
   };
+  const getCurrentDate = (s: string) => {
+    if (s.includes('December 25')) {
+      setIsChristmas(true);
+      setChristmasTheme(true);
+    } else if (!s.includes('December 25') && s.includes('December')) {
+      setIsChristmas(false);
+      setChristmasTheme(true);
+    } else {
+      setChristmasTheme(false);
+    }
+  };
 
   useEffect(() => {
     window.addEventListener('keydown', handleEvent);
@@ -44,20 +58,26 @@ export default function Home() {
     <>
       <div className='absolute flex text-white justify-between w-full p-5'>
         <Weather />
+        {isChristmas ? (
+          <p className='relative text-5xl font-mono'>Merry Christmas ! </p>
+        ) : null}
         <button
           onClick={() => (window.location.href = 'https://github.com/Slowsby')}
         >
           <img className='w-8 h-8' src={gitMark} />
         </button>
       </div>
-      <div className='h-screen bg-main-bg bg-cover text-white flex flex-col items-center justify-center'>
+      {christmasTheme ? <Christmas /> : null}
+      <div
+        className={`${christmasTheme ? 'bg-christmas-bg' : 'bg-main-bg'} h-screen bg-cover text-white flex flex-col items-center justify-center`}
+      >
         <div className='flex flex-col md:flex-row items-center justify-center'>
           <div className='flex-col md:mr-24'>
             <div id='time' className='text-5xl my-2'>
               <Time />
             </div>
             <div id='date' className='text-3xl mb-4'>
-              <Date />
+              <Date exportDate={getCurrentDate} />
             </div>
             <div className='relative w-80 mt-8'>
               <div className='absolute inset-y-0 start-0 flex items-center ps-3 cursor-pointer'>
