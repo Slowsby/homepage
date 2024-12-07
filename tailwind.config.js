@@ -4,8 +4,8 @@ export default {
   theme: {
     extend: {
       backgroundImage: {
-        'main-bg': "url('/src/assets/background.jpg')",
-        'christmas-bg': "url('/src/assets/background-christmas.jpg')"
+        'main-bg': "url('/background.jpg')",
+        'christmas-bg': "url('/background-christmas.jpg')"
       }
     }
   },

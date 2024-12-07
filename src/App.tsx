@@ -6,7 +6,7 @@ import Weather from './components/Weather';
 import Christmas from './components/events/Christmas';
 import { useEffect, useRef, useState } from 'react';
 import { handleSearch } from './tools/search';
-import gitMark from './assets/github-mark-white.png';
+import gitMark from '/github-mark-white.png';
 export default function Home() {
   const [search, setSearch] = useState<string>('');
   const [isHelpVisible, setHelpVisible] = useState<boolean>(false);
