@@ -92,7 +92,6 @@ export default function Home() {
           <img className='w-8 h-8' src={gitMark} />
         </button>
       </div>
-      {christmasTheme ? <Christmas /> : null}
       <div
         className={`${christmasTheme ? 'bg-christmas-bg' : 'bg-main-bg'} h-screen bg-cover text-white flex flex-col items-center justify-center`}
       >
@@ -128,6 +127,7 @@ export default function Home() {
                   />
                 </svg>
               </div>
+              {christmasTheme ? <Christmas /> : null}
               <input
                 ref={inputRef}
                 value={search}
