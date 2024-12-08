@@ -36,6 +36,29 @@ export default function Home() {
       setSearch('');
     }
   };
+
+  const handlePaste = (e: ClipboardEvent) => {
+    const clipboardItems = e.clipboardData?.items;
+
+    if (clipboardItems) {
+      const item = clipboardItems[0];
+      if (item.type.startsWith('image/')) {
+        const file = item.getAsFile();
+        if (file) {
+          // If 'f' is entered in the search bar, show image in new tab
+          if (search.toLowerCase().includes('f')) {
+            // Create an object URL for the image
+            const imageUrl = URL.createObjectURL(file);
+            window.open(imageUrl, '_blank');
+            // else, open google lens to do an image search
+          } else {
+            window.open('https://lens.google.com/search?p');
+          }
+        }
+      }
+    }
+  };
+
   const getCurrentDate = (s: string) => {
     if (s.includes('December 25')) {
       setIsChristmas(true);
@@ -50,8 +73,10 @@ export default function Home() {
 
   useEffect(() => {
     window.addEventListener('keydown', handleEvent);
+    window.addEventListener('paste', handlePaste);
     return () => {
       window.removeEventListener('keydown', handleEvent);
+      window.removeEventListener('paste', handlePaste);
     };
   });
   return (
