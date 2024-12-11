@@ -1,9 +1,6 @@
 import { useState, useEffect } from 'react';
 
-type exportDateProps = {
-  exportDate: (date: string) => void;
-};
-const DateDisplay = ({ exportDate }: exportDateProps) => {
+const DateDisplay = () => {
   const [date, setDate] = useState(new Date());
   const [day, setDay] = useState(new Date());
 
@@ -19,7 +16,6 @@ const DateDisplay = ({ exportDate }: exportDateProps) => {
     month: 'long',
     day: 'numeric'
   });
-  exportDate(currentDate);
   // Format the weekday
   const currentDay = day.toLocaleDateString('en-US', {
     weekday: 'long'

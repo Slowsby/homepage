@@ -4,14 +4,16 @@ import ASCII from './components/ASCII';
 import Help from './components/Help';
 import Weather from './components/Weather';
 import Christmas from './components/events/Christmas';
+import WorldClock from './components/WorldClock';
 import { useEffect, useRef, useState } from 'react';
 import { handleSearch } from './tools/search';
+import { getCurrentDate } from './utils/getCurrentDate';
 import gitMark from '/github-mark-white.png';
+
 export default function Home() {
   const [search, setSearch] = useState<string>('');
   const [isHelpVisible, setHelpVisible] = useState<boolean>(false);
-  const [christmasTheme, setChristmasTheme] = useState<boolean>(false);
-  const [isChristmas, setIsChristmas] = useState<boolean>(false);
+  const [isClockVisible, setClockVisible] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -21,15 +23,26 @@ export default function Home() {
   }, [isHelpVisible]);
 
   const handleEvent = (e: KeyboardEvent) => {
-    if ((e.code === 'Enter' || e.code === 'NumpadEnter') && isHelpVisible) {
+    if (e.key === 'q' && (isHelpVisible || isClockVisible)) {
+      setClockVisible(false);
+      setHelpVisible(false);
+      setSearch('');
+      return;
+    }
+    if (
+      (e.code === 'Enter' || e.code === 'NumpadEnter') &&
+      (isHelpVisible || isClockVisible)
+    ) {
       setSearch('');
       setHelpVisible(false);
-      inputRef.current?.focus();
+      setClockVisible(false);
       return;
     } else if (e.code === 'Enter' || e.code === 'NumpadEnter') {
       if (search === 'hh') {
-        inputRef.current?.blur();
         setHelpVisible(true);
+        return;
+      } else if (search === 'time') {
+        setClockVisible(true);
         return;
       }
       handleSearch(search);
@@ -59,18 +72,6 @@ export default function Home() {
     }
   };
 
-  const getCurrentDate = (s: string) => {
-    if (s.includes('December 25')) {
-      setIsChristmas(true);
-      setChristmasTheme(true);
-    } else if (!s.includes('December 25') && s.includes('December')) {
-      setIsChristmas(false);
-      setChristmasTheme(true);
-    } else {
-      setChristmasTheme(false);
-    }
-  };
-
   useEffect(() => {
     window.addEventListener('keydown', handleEvent);
     window.addEventListener('paste', handlePaste);
@@ -83,9 +84,6 @@ export default function Home() {
     <>
       <div className='absolute flex text-white justify-between w-full p-5'>
         <Weather />
-        {isChristmas ? (
-          <p className='relative text-5xl font-mono'>Merry Christmas ! </p>
-        ) : null}
         <button
           onClick={() => (window.location.href = 'https://github.com/Slowsby')}
         >
@@ -93,7 +91,7 @@ export default function Home() {
         </button>
       </div>
       <div
-        className={`${christmasTheme ? 'bg-christmas-bg' : 'bg-main-bg'} h-screen bg-cover text-white flex flex-col items-center justify-center`}
+        className={`${getCurrentDate()} h-screen bg-cover text-white flex flex-col items-center justify-center`}
       >
         <div className='flex flex-col md:flex-row items-center justify-center'>
           <div className='flex-col md:mr-24'>
@@ -101,7 +99,7 @@ export default function Home() {
               <Time />
             </div>
             <div id='date' className='text-3xl mb-4'>
-              <Date exportDate={getCurrentDate} />
+              <Date />
             </div>
             <div className='relative w-80 mt-8'>
               <div className='absolute inset-y-0 start-0 flex items-center ps-3 cursor-pointer'>
@@ -127,14 +125,22 @@ export default function Home() {
                   />
                 </svg>
               </div>
-              {christmasTheme ? <Christmas /> : null}
+              {getCurrentDate() === 'bg-christmas-bg' &&
+              !isHelpVisible &&
+              !isClockVisible ? (
+                <Christmas />
+              ) : null}
               <input
                 ref={inputRef}
                 value={search}
                 type='text'
                 className='block w-full md:w-96 p-2 ps-12 text-lg border rounded-2xl text-black placeholder:text-[#5A5A5A] bg-[#9E9E9E] border-[#9e9e9e] focus:outline-none'
                 placeholder={`"This is my gift, my curse"`}
-                onChange={(e) => setSearch(e.target.value.toString())}
+                onChange={(e) => {
+                  if (!isHelpVisible) {
+                    setSearch(e.target.value.toString());
+                  }
+                }}
                 required
               />
             </div>
@@ -142,7 +148,8 @@ export default function Home() {
           <div>
             <ASCII />
           </div>
-          {isHelpVisible ? <Help /> : ''}
+          {isHelpVisible ? <Help /> : null}
+          {isClockVisible ? <WorldClock /> : null}
         </div>
       </div>
     </>
