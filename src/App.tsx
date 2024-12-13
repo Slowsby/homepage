@@ -8,12 +8,15 @@ import WorldClock from './components/WorldClock';
 import { useEffect, useRef, useState } from 'react';
 import { handleSearch } from './tools/search';
 import { getCurrentDate } from './utils/getCurrentDate';
+import { getTimeDiff } from './utils/getCurrentDate';
 import gitMark from '/github-mark-white.png';
 
 export default function Home() {
   const [search, setSearch] = useState<string>('');
   const [isHelpVisible, setHelpVisible] = useState<boolean>(false);
   const [isClockVisible, setClockVisible] = useState<boolean>(false);
+  const [showTimeDiff, setShowTimeDiff] = useState<boolean>(false);
+  const [timeDiff, setTimeDiff] = useState<string>('');
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -44,9 +47,17 @@ export default function Home() {
       } else if (search === 'time') {
         setClockVisible(true);
         return;
+      } else if (search.match(/^([0-9]|[1-9][0-9])h ago$/gi)) {
+        setTimeDiff(getTimeDiff(parseInt(search)));
+        setShowTimeDiff(true);
+        setTimeout(() => {
+          setShowTimeDiff(false);
+        }, 2500);
+        return;
+      } else {
+        handleSearch(search);
+        setSearch('');
       }
-      handleSearch(search);
-      setSearch('');
     }
   };
 
@@ -142,8 +153,11 @@ export default function Home() {
                   }
                 }}
                 required
-              />
+              />{' '}
             </div>
+            {showTimeDiff ? (
+              <p className='flex justify-center mt-5 text-lg'>{timeDiff}</p>
+            ) : null}
           </div>
           <div>
             <ASCII />
