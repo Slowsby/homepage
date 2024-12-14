@@ -91,14 +91,14 @@ export const handleSearch = (search: string) => {
       // CHAT GPT
       case 'gpt':
         window.location.href = toSearch.length
-          ? fullQuery
+          ? 'https://chatgpt.com/?q=' + query
           : 'https://chatgpt.com/';
         break;
 
       // CHAT GPT Temp
       case 'gpta':
         window.location.href = toSearch.length
-          ? fullQuery
+          ? 'https://chatgpt.com/?temporary-chat=true&q=' + query
           : 'https://chatgpt.com/?temporary-chat=true';
         break;
       // GITHUB
