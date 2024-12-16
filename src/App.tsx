@@ -11,12 +11,17 @@ import { getCurrentDate } from './utils/getCurrentDate';
 import { getTimeDiff } from './utils/getCurrentDate';
 import gitMark from '/github-mark-white.png';
 
+type Bird = {
+  code: string;
+  name: string;
+};
 export default function Home() {
   const [search, setSearch] = useState<string>('');
   const [isHelpVisible, setHelpVisible] = useState<boolean>(false);
   const [isClockVisible, setClockVisible] = useState<boolean>(false);
   const [showTimeDiff, setShowTimeDiff] = useState<boolean>(false);
   const [timeDiff, setTimeDiff] = useState<string>('');
+  const [birdResults, setBirdResults] = useState<Bird[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -41,6 +46,10 @@ export default function Home() {
       setClockVisible(false);
       return;
     } else if (e.code === 'Enter' || e.code === 'NumpadEnter') {
+      if (search.startsWith('ebird ')) {
+        // Return nothing when using the ebird autocomplete
+        return;
+      }
       if (search === 'hh') {
         setHelpVisible(true);
         return;
@@ -91,6 +100,47 @@ export default function Home() {
       window.removeEventListener('paste', handlePaste);
     };
   });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (search.startsWith('ebird ')) {
+        try {
+          const res = await fetch(
+            // public api
+            `https://api.ebird.org/v2/ref/taxon/find?locale=fr&cat=species&key=jfekjedvescr&q=${search.replace('ebird ', '')}`
+          );
+          const data = await res.json();
+          setBirdResults(data);
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      }
+    };
+
+    if (search.match(/^ebird\s.{3,}$/gi)) {
+      fetchData();
+    }
+  }, [search]);
+
+  const renderBirdResults = (birds: Bird[]) => {
+    return birds.map((el) => {
+      const [name, ...sci] = el.name.split('-');
+      return (
+        <a
+          className='bg-white p-3 justify-start items-start w-96 hover:bg-gray-300 focus:bg-gray-300 border-black border-1 text-left'
+          href={`https://ebird.org/species/${el.code}`}
+        >
+          <div className='text-black'>
+            <p>
+              <span>{name}</span>
+              <span className='text-gray-600 italic text-sm'>{sci}</span>
+            </p>
+          </div>
+        </a>
+      );
+    });
+  };
+
   return (
     <>
       <div className='absolute flex text-white justify-between w-full p-5'>
@@ -153,10 +203,16 @@ export default function Home() {
                   }
                 }}
                 required
-              />{' '}
+              />
+              <div></div>
             </div>
             {showTimeDiff ? (
               <p className='flex justify-center mt-5 text-lg'>{timeDiff}</p>
+            ) : null}
+            {search.startsWith('ebird') && birdResults ? (
+              <div className='absolute flex flex-col overflow-y-auto max-h-60'>
+                {renderBirdResults(birdResults)}
+              </div>
             ) : null}
           </div>
           <div>

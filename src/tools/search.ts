@@ -269,7 +269,7 @@ export const items: { key: string; label: string }[] = [
   { key: 'ddg', label: 'DuckDuckGo + Search' },
   { key: 'deepl', label: 'Deepl' },
   { key: 'disney', label: 'Disney+' },
-  { key: 'ebird', label: 'eBird' },
+  { key: 'ebird', label: 'eBird + Autocomplete' },
   { key: 'ebirdq', label: 'eBird Quiz' },
   { key: 'eol', label: 'EOL NASA' },
   { key: 'fmhy', label: 'FreeMediaHeckYeah' },
