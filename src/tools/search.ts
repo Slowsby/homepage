@@ -47,7 +47,7 @@ export const handleSearch = (search: string) => {
       // DEEPL
       case 'deepl':
         window.location.href = toSearch.length
-          ? fullQuery
+          ? 'https://www.deepl.com/en/translator#nl/en/' + toSearch.join(' ')
           : 'https://www.deepl.com/en/translator';
         break;
       // DISNEY
