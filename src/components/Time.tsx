@@ -5,8 +5,8 @@ const Time = () => {
     new Date().toLocaleTimeString([], {
       hour12: true,
       hour: 'numeric',
-      minute: '2-digit',
-    }),
+      minute: '2-digit'
+    })
   );
 
   useEffect(() => {
@@ -15,13 +15,14 @@ const Time = () => {
         new Date().toLocaleTimeString([], {
           hour12: true,
           hour: 'numeric',
-          minute: '2-digit',
-        }),
+          minute: '2-digit'
+        })
       );
     }, 1000);
 
     return () => clearInterval(intervalId);
   }, []);
+  document.title = `homepage - ${time}`;
   return <p>{time}</p>;
 };
 export default Time;
