@@ -256,6 +256,11 @@ export const handleSearch = (search: string) => {
           ? `https://developer.mozilla.org/en-US/search?q=${query}`
           : 'https://developer.mozilla.org/en-US/';
         break;
+      case 'she':
+        window.location.href = toSearch.length
+          ? fullQuery
+          : 'https://docs.google.com/spreadsheets/u/0/';
+        break;
       default:
         window.location.href = fullQuery;
         break;
@@ -290,6 +295,7 @@ export const items: { key: string; label: string }[] = [
   { key: 'pomodor', label: 'Pomodoro' },
   { key: 'prime', label: 'Prime' },
   { key: 'rng', label: 'Random Number Generator' },
+  { key: 'she', label: 'Sheets' },
   { key: 'tf1', label: 'TF1' },
   { key: 'ttv', label: 'Twitch + Search' },
   { key: 'twtr', label: 'Twitter' },

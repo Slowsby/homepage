@@ -22,7 +22,6 @@ const Time = () => {
 
     return () => clearInterval(intervalId);
   }, []);
-  document.title = `homepage - ${time}`;
   return <p>{time}</p>;
 };
 export default Time;
