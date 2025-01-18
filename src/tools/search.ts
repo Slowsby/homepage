@@ -245,12 +245,6 @@ export const handleSearch = (search: string) => {
           ? `https://www.google.com/search?q=${query}+site:reddit.com`
           : defaultSearchUrl;
         break;
-      // Perpexlity AI
-      case 'perp':
-        window.location.href = toSearch.length
-          ? fullQuery
-          : `https://www.perplexity.ai/`;
-        break; // Perpexlity AI
       case 'mdn':
         window.location.href = toSearch.length
           ? `https://developer.mozilla.org/en-US/search?q=${query}`
@@ -291,7 +285,6 @@ export const items: { key: string; label: string }[] = [
   { key: 'lcg', label: 'League Of Comic Geeks + Search' },
   { key: 'maps', label: 'Google Maps + Search' },
   { key: 'max', label: 'HBO' },
-  { key: 'perp', label: 'Perplexity AI' },
   { key: 'pomodor', label: 'Pomodoro' },
   { key: 'prime', label: 'Prime' },
   { key: 'rng', label: 'Random Number Generator' },
