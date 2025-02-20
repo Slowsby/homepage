@@ -198,12 +198,6 @@ export const handleSearch = (search: string) => {
           ? `https://www.twitch.tv/search?term=${query}`
           : 'https://www.twitch.tv/';
         break;
-      // TWITTER
-      case 'twtr':
-        window.location.href = toSearch.length
-          ? fullQuery
-          : 'https://www.x.com/';
-        break;
       // VRT Nieuws
       case 'vrtn':
         window.location.href = toSearch.length
@@ -291,7 +285,6 @@ export const items: { key: string; label: string }[] = [
   { key: 'she', label: 'Sheets' },
   { key: 'tf1', label: 'TF1' },
   { key: 'ttv', label: 'Twitch + Search' },
-  { key: 'twtr', label: 'Twitter' },
   { key: 'vrt', label: 'VRT MAX + Search' },
   { key: 'vrtn', label: 'VRT Nieuws' },
   { key: 'wtr', label: 'Weather(KMI) + Search' },
