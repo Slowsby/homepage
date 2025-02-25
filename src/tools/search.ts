@@ -1,4 +1,4 @@
-const defaultSearchUrl = `https://www.google.com/search?q=`;
+const defaultSearchUrl = `https://www.duckduckgo.com/?q=`;
 export const handleSearch = (search: string) => {
   const fullQuery =
     defaultSearchUrl + search.replaceAll('+', '%2B').split(' ').join('+');
@@ -37,12 +37,6 @@ export const handleSearch = (search: string) => {
         window.location.href = toSearch.length
           ? fullQuery
           : 'https://calendar.google.com/calendar/u/0/r';
-        break;
-      // DUCKDUCKGO
-      case 'ddg':
-        window.location.href = toSearch.length
-          ? `https://www.duckduckgo.com/?t=h_&q=${query}`
-          : 'https://www.duckduckgo.com';
         break;
       // DEEPL
       case 'deepl':
@@ -106,6 +100,12 @@ export const handleSearch = (search: string) => {
         window.location.href = toSearch.length
           ? fullQuery
           : 'https://www.github.com';
+        break;
+      // GOOGLE
+      case 'ggl':
+        window.location.href = toSearch.length
+          ? `https://www.google.com/search?q=${query}`
+          : 'https://www.google.com';
         break;
       // imdb
       case 'imdb':
@@ -259,7 +259,7 @@ export const items: { key: string; label: string }[] = [
   { key: 'adsb', label: 'ADS-B Exchange' },
   { key: 'amz', label: 'Amazon' },
   { key: 'cal', label: 'Google Calendar' },
-  { key: 'ddg', label: 'DuckDuckGo + Search' },
+  { key: 'ggl', label: 'Google + Search' },
   { key: 'deepl', label: 'Deepl' },
   { key: 'disney', label: 'Disney+' },
   { key: 'ebird', label: 'eBird + Autocomplete' },
