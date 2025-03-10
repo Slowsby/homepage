@@ -1,4 +1,4 @@
-const defaultSearchUrl = `https://www.duckduckgo.com/?q=`;
+const defaultSearchUrl = `https://startpage.com/do/dsearch?q=`;
 export const handleSearch = (search: string) => {
   const fullQuery =
     defaultSearchUrl + search.replaceAll('+', '%2B').split(' ').join('+');
@@ -37,6 +37,12 @@ export const handleSearch = (search: string) => {
         window.location.href = toSearch.length
           ? fullQuery
           : 'https://calendar.google.com/calendar/u/0/r';
+        break;
+      // DUCKDUCKGO
+      case 'ddg':
+        window.location.href = toSearch.length
+          ? `https://www.duckduckgo.com/?t=h_&q=${query}`
+          : 'https://www.duckduckgo.com';
         break;
       // DEEPL
       case 'deepl':
