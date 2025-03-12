@@ -6,6 +6,7 @@ import Weather from './components/Weather';
 import Christmas from './components/events/Christmas';
 import WorldClock from './components/WorldClock';
 import RenderBirdResults from './components/EbirdResults';
+import RenderWikiResults from './components/WikiResults';
 import { useEffect, useRef, useState } from 'react';
 import { handleSearch } from './tools/search';
 import { getCurrentDate } from './utils/getCurrentDate';
@@ -17,6 +18,15 @@ type Bird = {
   name: string;
 };
 
+type Thumbnail = {
+  url: string;
+};
+type Wiki = {
+  id: number;
+  description: string;
+  thumbnail: Thumbnail | null;
+};
+
 export default function Home() {
   const [search, setSearch] = useState<string>('');
   const [isHelpVisible, setHelpVisible] = useState<boolean>(false);
@@ -24,6 +34,7 @@ export default function Home() {
   const [showTimeDiff, setShowTimeDiff] = useState<boolean>(false);
   const [timeDiff, setTimeDiff] = useState<string>('');
   const [birdResults, setBirdResults] = useState<Bird[]>([]);
+  const [wikiResults, setWikiResults] = useState<Wiki[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -48,7 +59,7 @@ export default function Home() {
       setClockVisible(false);
       return;
     } else if (e.code === 'Enter' || e.code === 'NumpadEnter') {
-      if (search.startsWith('ebird ')) {
+      if (search.startsWith('ebird ') || search.startsWith('wiki ')) {
         // Return nothing when using the ebird autocomplete
         return;
       }
@@ -104,6 +115,25 @@ export default function Home() {
   });
 
   useEffect(() => {
+    const fetchWikiData = async () => {
+      if (search.startsWith('wiki ')) {
+        try {
+          const res = await fetch(
+            // public api
+            `https://en.wikipedia.org/w/rest.php/v1/search/title?q=${search.replace('wiki ', '')}&limit=12&origin=*`
+          );
+          const data = await res.json();
+          const { pages } = data;
+          setWikiResults(pages);
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      }
+    };
+
+    if (search.match(/^wiki\s./gi)) {
+      fetchWikiData();
+    }
     const fetchData = async () => {
       if (search.startsWith('ebird ')) {
         try {
@@ -195,6 +225,10 @@ export default function Home() {
             {search.startsWith('ebird') && birdResults ? (
               <div className='absolute flex flex-col overflow-y-auto max-h-60'>
                 {RenderBirdResults(birdResults)}
+              </div>
+            ) : search.startsWith('wiki') && wikiResults ? (
+              <div className='absolute flex flex-col overflow-y-auto max-h-60'>
+                {RenderWikiResults(wikiResults)}
               </div>
             ) : null}
           </div>

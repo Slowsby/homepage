@@ -230,7 +230,7 @@ export const handleSearch = (search: string) => {
       // WIKIPEDIA
       case 'wiki':
         window.location.href = toSearch.length
-          ? `https://en.wikipedia.org/w/index.php?search=${query}`
+          ? `` // Handled by autocomplete
           : 'https://en.wikipedia.org';
         break;
       // YOUTUBE
@@ -294,7 +294,7 @@ export const items: { key: string; label: string }[] = [
   { key: 'vrt', label: 'VRT MAX + Search' },
   { key: 'vrtn', label: 'VRT Nieuws' },
   { key: 'wtr', label: 'Weather(KMI) + Search' },
-  { key: 'wiki', label: 'Wikipedia + Search' },
+  { key: 'wiki', label: 'Wikipedia + Autocomplete' },
   { key: 'ytb', label: 'Youtube + Search' },
   { key: ':red', label: 'Search with site:reddit.com' }
 ];
