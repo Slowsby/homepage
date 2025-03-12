@@ -23,6 +23,7 @@ type Thumbnail = {
 };
 type Wiki = {
   id: number;
+  title: string;
   description: string;
   thumbnail: Thumbnail | null;
 };
