@@ -60,7 +60,11 @@ export default function Home() {
       setClockVisible(false);
       return;
     } else if (e.code === 'Enter' || e.code === 'NumpadEnter') {
-      if (search.startsWith('ebird ') || search.startsWith('wiki ')) {
+      if (
+        search.startsWith('ebird ') ||
+        search.startsWith('wiki ') ||
+        search.startsWith('ebirde ')
+      ) {
         // Return nothing when using the ebird autocomplete
         return;
       }
@@ -135,7 +139,7 @@ export default function Home() {
     if (search.match(/^wiki\s./gi)) {
       fetchWikiData();
     }
-    const fetchData = async () => {
+    const fetchFrBirdData = async () => {
       if (search.startsWith('ebird ')) {
         try {
           const res = await fetch(
@@ -151,7 +155,25 @@ export default function Home() {
     };
 
     if (search.match(/^ebird\s.{3,}$/gi)) {
-      fetchData();
+      fetchFrBirdData();
+    }
+    const fetchEnBirdData = async () => {
+      if (search.startsWith('ebirde ')) {
+        try {
+          const res = await fetch(
+            // public api
+            `https://api.ebird.org/v2/ref/taxon/find?locale=en_US&cat=species&key=jfekjedvescr&q=${search.replace('ebirde ', '')}`
+          );
+          const data = await res.json();
+          setBirdResults(data);
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      }
+    };
+
+    if (search.match(/^ebirde\s.{3,}$/gi)) {
+      fetchEnBirdData();
     }
   }, [search]);
 
@@ -223,7 +245,8 @@ export default function Home() {
             {showTimeDiff ? (
               <p className='flex justify-center mt-5 text-lg'>{timeDiff}</p>
             ) : null}
-            {search.startsWith('ebird') && birdResults ? (
+            {(search.startsWith('ebird') || search.startsWith('ebirde')) &&
+            birdResults ? (
               <div className='absolute flex flex-col overflow-y-auto max-h-60'>
                 {RenderBirdResults(birdResults)}
               </div>
