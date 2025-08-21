@@ -131,6 +131,12 @@ export const handleSearch = (search: string) => {
           ? fullQuery
           : 'http://monkeytype.com';
         break;
+      // Merriam-Webster
+      case 'mw':
+        window.location.href = toSearch.length
+          ? fullQuery
+          : 'https://www.merriam-webster.com/';
+        break;
       // NASA
       case 'nasa':
         window.location.href = toSearch.length
@@ -278,6 +284,7 @@ export const items: { key: string; label: string }[] = [
   { key: 'imdb', label: 'IMDb + Search' },
   { key: 'img', label: 'Google Images + Search' },
   { key: 'mty', label: 'Monkeytype' },
+  { key: 'mw', label: 'Merriam-Webster' },
   { key: 'nasa', label: 'Nasa' },
   { key: 'netflix', label: 'Netflix' },
   { key: 'gm', label: 'Gmail' },
